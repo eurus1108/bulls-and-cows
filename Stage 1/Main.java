@@ -16,6 +16,6 @@ public class Main {
                 Congrats! The secret code is 9876.
                     """;
 
-        System.out.println();
+        System.out.println(example);
     }
 }
