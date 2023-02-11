@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        final String secretCode = "9305";
+        final String secretCode = "9035";
         int bulls = 0;
         int cows = 0;
 
