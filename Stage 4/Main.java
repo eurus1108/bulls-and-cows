@@ -7,70 +7,61 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        final int stringLength = takeStringLength();
-        final String secretCode = secretCode(stringLength);
-
-        System.out.println(secretCode);
-        System.out.println(secretCode.length());
-        System.out.println("Okay, let's start a game!");
-
-        int turn = 1;
         int bulls = 0;
         int cows = 0;
+        int turn = 1;
 
-        // while (true) {
-        // System.out.println("Turn " + turn + ":");
-        // guessCode = scanner.next();
-        // turn++;
-        // for (int i = 0; i < stringLength; i++) {
-        // if (guessCode.charAt(i) == secretCode.charAt(i)) {
-        // bulls++;
-        // }
-        // for (int j = 0; j < stringLength; j++) {
-        // if (secretCode.charAt(i) == guessCode.charAt(j) && !(secretCode.charAt(i) ==
-        // guessCode.charAt(j))) {
-        // cows++;
-        // }
-        // }
-        // }
-        // System.out.println("Guess code: " + guessCode);
-        // System.out.println("Bulls: " + bulls);
-        // System.out.println("Cows: " + cows);
-        // String grade = grader(bulls, cows);
-        // System.out.println("Grade: " + grade);
+        final int stringLength = takeStringLength();
+        final String secretCode = secretCode(stringLength);
+        System.out.println("Okay, let's start a game!");
 
-        // if (bulls == stringLength) {
-        // break;
-        // }
-        // }
+        while (true) {
+            System.out.println("Turn " + turn + ":");
+            System.out.print("> ");
+            String guessCode = scanner.nextLine();
 
-        System.out.println("Turn " + turn + ":");
-        String guessCode = scanner.nextLine();
-        System.out.println(guessCode.charAt(0));
+            if (guessCode.length() != 4) {
+                continue;
+            }
 
-        turn++;
+            for (int i = 0; i < secretCode.length(); i++) {
+                if (guessCode.charAt(i) == secretCode.charAt(i)) {
+                    bulls++;
+                }
 
-        // for (int i = 0; i < stringLength; i++) {
-        // if (guessCode.charAt(i) == secretCode.charAt(i)) {
-        // bulls++;
-        // }
+                for (int j = 0; j < secretCode.length(); j++) {
+                    if (guessCode.charAt(j) == secretCode.charAt(i) && !(guessCode.charAt(i) == secretCode.charAt(i))) {
+                        cows++;
+                    }
+                }
+            }
 
-        // for (int j = 0; j < stringLength; j++) {
-        // if (secretCode.charAt(i) == guessCode.charAt(j) && !(secretCode.charAt(i) ==
-        // guessCode.charAt(j))) {
-        // cows++;
-        // }
-        // }
-        // }
+            String grade = "";
 
-        System.out.println("Guess code: " + guessCode);
-        System.out.println("Bulls: " + bulls);
-        System.out.println("Cows: " + cows);
+            if (bulls > 0 && cows > 0) {
+                grade = bulls + " bulls and " + cows + " cows";
+            } else if (bulls > 0) {
+                grade = bulls + " bulls";
+            } else if (cows > 0) {
+                grade = cows + " cow";
+            } else {
+                grade = "None";
+            }
 
-        String grade = grader(bulls, cows);
-        System.out.println("Grade: " + grade);
+            System.out.println("Grade: " + grade);
+            turn++;
+
+            if (bulls == stringLength) {
+                break;
+            }
+
+            // This will reset the count for bulls and cows
+            bulls = 0;
+            cows = 0;
+        }
 
         System.out.println("Congratulations! You guessed the secret code.");
+
     }
 
     public static String grader(int bulls, int cows) {
@@ -89,6 +80,26 @@ public class Main {
         return grade;
     }
 
+    public static int takeStringLength() {
+        int stringLength;
+
+        while (true) {
+            System.out.println("Please, enter the secret code's length:");
+            System.out.print("> ");
+            stringLength = Integer.parseInt(scanner.nextLine());
+
+            if (stringLength > 10) {
+                System.out.println(
+                        "Error: can't generate a secret number with a length of 11 because there aren't enough unique digits.");
+                continue;
+            } else {
+                break;
+            }
+        }
+
+        return stringLength;
+    }
+
     public static String secretCode(int stringLength) {
         String initialCode = randomNumber();
         String secretCode = "";
@@ -98,20 +109,6 @@ public class Main {
         }
 
         return secretCode;
-    }
-
-    public static int takeStringLength() {
-        System.out.println("Please, enter the secret code's length:");
-        System.out.print("> ");
-        int stringLength = scanner.nextInt();
-
-        if (stringLength > 10) {
-            System.out.println(
-                    "Error: can't generate a secret number with a length of 11 because there aren't enough unique digits.");
-            takeStringLength();
-        }
-
-        return stringLength;
     }
 
     public static String randomNumber() {
