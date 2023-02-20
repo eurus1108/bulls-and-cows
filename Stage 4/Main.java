@@ -20,7 +20,7 @@ public class Main {
             System.out.print("> ");
             String guessCode = scanner.nextLine();
 
-            if (guessCode.length() != 4) {
+            if (guessCode.length() != stringLength) {
                 continue;
             }
 
