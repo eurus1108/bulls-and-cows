@@ -9,7 +9,6 @@ public class Main {
 
     public static void main(String[] args) {
         String secretCode = gameSettings();
-        System.out.println(secretCode);
         game(secretCode);
     }
 
@@ -49,7 +48,6 @@ public class Main {
                 break;
             }
         }
-
     }
 
     public static String gameSettings() {
