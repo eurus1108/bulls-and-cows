@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,10 +10,10 @@ public class Main {
 
     public static void main(String[] args) {
         String secretCode = gameSettings();
-        game(secretCode);
+        gameLogic(secretCode);
     }
 
-    public static void game(String secretCode) {
+    public static void gameLogic(String secretCode) {
         int turn = 1;
 
         while (true) {
@@ -51,11 +52,30 @@ public class Main {
     }
 
     public static String gameSettings() {
-        System.out.println("Input the length of the secret code:");
+        int lengthOfCode = 0;
+        int possibleSymbol = 0;
 
-        int lengthOfCode = scanner.nextInt();
-        System.out.println("Input the number of possible symbols in the code:");
-        int possibleSymbol = scanner.nextInt();
+        try {
+            System.out.println("Input the length of the secret code:");
+            lengthOfCode = scanner.nextInt();
+            System.out.println("Input the number of possible symbols in the code:");
+            possibleSymbol = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            // TODO: handle exception
+            System.out.println("Error: \"" + lengthOfCode + "\" isn't a valid number.");
+            System.exit(0);
+        }
+
+        if (lengthOfCode > possibleSymbol) {
+            System.out.println("Error: it's not possible to generate a code with a length of " + lengthOfCode + " with "
+                    + possibleSymbol + " unique symbols.");
+            System.exit(0);
+        }
+
+        if (possibleSymbol > 36) {
+            System.out.println("Error: maximum number of possible symbols in the code is 36 (0-9, a-z).");
+            System.exit(0);
+        }
 
         String stars = "";
         for (int i = 0; i < lengthOfCode; i++) {
