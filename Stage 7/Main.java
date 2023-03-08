@@ -10,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         String secretCode = gameSettings();
+        System.out.println(secretCode);
         gameLogic(secretCode);
     }
 
@@ -111,18 +112,13 @@ public class Main {
     public static final String secretCode(int length, int bound) {
         Random random = new Random();
         final String collection = "0123456789abcdefghijklmnopqrstuvwxyz";
-        String possibleSymbol = "";
         String secretCode = "";
 
-        for (int i = 0; i < bound; i++) {
-            possibleSymbol += collection.charAt(i);
-        }
-
         while (secretCode.length() != length) {
-            final int index = random.nextInt(possibleSymbol.length());
+            final int index = random.nextInt(bound);
             char ch = collection.charAt(index);
 
-            if (filterDuplicate(ch, secretCode)) {
+            if (secretCode.indexOf(ch) != -1) {
                 continue;
             }
 
@@ -130,15 +126,5 @@ public class Main {
         }
 
         return secretCode;
-    }
-
-    public static boolean filterDuplicate(char character, String string) {
-        for (int i = 0; i < string.length(); i++) {
-            if (character == string.charAt(i)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
